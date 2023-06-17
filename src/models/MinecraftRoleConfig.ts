@@ -1,21 +1,30 @@
 import { DataTypes, Model } from "sequelize";
 import { db } from "../services/db";
+import { DiscordServer } from "./DiscordServer";
+import { DiscordRole } from "./DiscordRole";
 
 class MinecraftRoleConfig extends Model {
-    declare id: number;
-    declare name: string;
+  declare id: number;
+  declare name: string;
 }
 
-MinecraftRoleConfig.init({
+MinecraftRoleConfig.init(
+  {
     id: {
-        type: DataTypes.NUMBER,
-        autoIncrement: true,
-        primaryKey: true,
+      type: DataTypes.NUMBER,
+      autoIncrement: true,
+      primaryKey: true,
     },
     name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    }
-}, { sequelize: db })
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  { sequelize: db }
+);
 
-export { MinecraftRoleConfig }
+DiscordServer.hasMany(MinecraftRoleConfig);
+MinecraftRoleConfig.belongsTo(DiscordServer);
+DiscordRole.hasOne(MinecraftRoleConfig, { onDelete: "SET_NULL" });
+
+export { MinecraftRoleConfig };

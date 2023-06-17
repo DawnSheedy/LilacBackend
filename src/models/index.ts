@@ -1,5 +1,6 @@
 import './DiscordUser'
 import './DiscordServer'
+import './MinecraftRoleConfig'
 import { db } from '../services/db'
 
 console.log('🔃 Snychronizing Models!')
