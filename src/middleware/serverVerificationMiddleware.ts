@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { generateHelpfulErrorJson } from "../util/generateHelpfulErrorJson";
 import { DiscordServer } from "../models/DiscordServer";
 import { checkAndUpdateServerRelations } from "../auth/checkAndUpdateServerRelations";
+import { updateServer } from "../services/discord/updateServer";
 
 /**
  * Middleware to verify a user is authenticated with discord.
@@ -30,7 +31,7 @@ export const serverVerificationMiddleware = async (
       );
   }
 
-  const server = await DiscordServer.findByPk(serverId);
+  let server = await DiscordServer.findByPk(serverId);
 
   if (!server || !req.user.hasDiscordServer(server)) {
     return res
@@ -57,6 +58,12 @@ export const serverVerificationMiddleware = async (
           "Requested serverId either does not exist or you do not have permission to access it."
         )
       );
+  }
+
+  if (
+    new Date().getTime() - server.lastRefresh?.getTime() ?? 0 > 60 * 60 * 1000
+  ) {
+    server = await updateServer({ serverId: server.serverId });
   }
 
   req.server = server;
