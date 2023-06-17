@@ -42,7 +42,7 @@ export const updateOrRegisterUserAndGetJWTAndIdentity = async (
   const server =
     (await DiscordServer.findByPk(discordResponse.guild.id)) ??
     (await DiscordServer.create({
-      serverId: discordResponse.guild.id,
+      id: discordResponse.guild.id,
       lastRefresh: new Date(),
     }));
 

@@ -9,14 +9,14 @@ const adminPermission = BigInt("0x0000000000000008");
 /**
  * Given a user and server id, check if the user is an administrator in the server.
  * @param userId
- * @param serverId
+ * @param id
  */
 export const checkAdminPermissions = async (
   userId: string,
-  serverId: string
+  id: string
 ) => {
-  const server = await discordBotApi.guilds.get(serverId);
-  await updateServer({ server, serverId: server.id });
+  const server = await discordBotApi.guilds.get(id);
+  await updateServer({ server, id: server.id });
 
   // Easy way out, user owns the server
   if (server.owner_id === userId) {
@@ -24,7 +24,7 @@ export const checkAdminPermissions = async (
   }
 
   // If user doesn't own it, check to see if any of their roles grant Administrator
-  const user = await discordBotApi.guilds.getMember(serverId, userId);
+  const user = await discordBotApi.guilds.getMember(id, userId);
   const roleMap = generateRoleMap(server.roles);
 
   const userHasPermission = user.roles.some((role) => {

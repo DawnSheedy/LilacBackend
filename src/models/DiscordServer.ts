@@ -3,7 +3,7 @@ import { db } from "../services/db";
 import { DiscordRole } from "./DiscordRole";
 
 class DiscordServer extends Model {
-    declare serverId: string
+    declare id: string
     declare lastRefresh: Date | null
     declare serverName: string | null
     declare serverIcon: string | null
@@ -16,7 +16,7 @@ class DiscordServer extends Model {
 }
 
 DiscordServer.init({
-    serverId: {
+    id: {
         type: DataTypes.STRING,
         unique: true,
         primaryKey: true

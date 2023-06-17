@@ -5,7 +5,7 @@ class UserServer extends Model {
   declare lastPermissionCheck: Date | null;
   declare userHasPermission: boolean | null;
   declare discordUserId: string;
-  declare discordServerId: string;
+  declare discordId: string;
 }
 
 UserServer.init(

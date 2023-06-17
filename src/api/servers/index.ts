@@ -9,12 +9,12 @@ const serverApi = Router()
 
 serverApi.use(discordVerificationMiddleware)
 
-serverApi.param('serverId', serverVerificationMiddleware)
+serverApi.param('id', serverVerificationMiddleware)
 
 serverApi.get('/', getServers)
 
-serverApi.get('/:serverId', getServer)
+serverApi.get('/:id', getServer)
 
-serverApi.get('/:serverId/roles', getRoles)
+serverApi.get('/:id/roles', getRoles)
 
 export { serverApi }

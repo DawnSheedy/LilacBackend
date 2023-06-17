@@ -17,21 +17,21 @@ export const serverVerificationMiddleware = async (
   next: NextFunction
 ) => {
   console.log(req.params);
-  const serverId = req.params.serverId;
+  const id = req.params.id;
 
   // ServerID not provided, bad request.
-  if (!serverId) {
+  if (!id) {
     return res
       .status(400)
       .json(
         generateHelpfulErrorJson(
-          "missing_serverId",
-          "No serverId was provided."
+          "missing_id",
+          "No id was provided."
         )
       );
   }
 
-  let server = await DiscordServer.findByPk(serverId);
+  let server = await DiscordServer.findByPk(id);
 
   if (!server || !req.user.hasDiscordServer(server)) {
     return res
@@ -39,7 +39,7 @@ export const serverVerificationMiddleware = async (
       .json(
         generateHelpfulErrorJson(
           "server_not_found",
-          "Requested serverId either does not exist or you do not have permission to access it."
+          "Requested id either does not exist or you do not have permission to access it."
         )
       );
   }
@@ -55,7 +55,7 @@ export const serverVerificationMiddleware = async (
       .json(
         generateHelpfulErrorJson(
           "server_not_found",
-          "Requested serverId either does not exist or you do not have permission to access it."
+          "Requested id either does not exist or you do not have permission to access it."
         )
       );
   }
@@ -63,7 +63,7 @@ export const serverVerificationMiddleware = async (
   if (
     new Date().getTime() - server.lastRefresh?.getTime() ?? 0 > 60 * 60 * 1000
   ) {
-    server = await updateServer({ serverId: server.serverId });
+    server = await updateServer({ id: server.id });
   }
 
   req.server = server;

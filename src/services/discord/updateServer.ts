@@ -4,17 +4,17 @@ import { updateServerRendition } from "./updateServerRendition";
 import { updateServerRoles } from "./updateServerRoles";
 import { discordBotApi } from ".";
 
-export const updateServer = async ({ server, serverId }: { server?: APIGuild, serverId: string }) => {
+export const updateServer = async ({ server, id }: { server?: APIGuild, id: string }) => {
     let serverRetrievalFailure = false;
     if (!server) {
         try {
-            server = await discordBotApi.guilds.get(serverId)
+            server = await discordBotApi.guilds.get(id)
         } catch {
             serverRetrievalFailure = true;
         }
     }
 
-    const dbRendition = await DiscordServer.findByPk(server?.id ?? serverId)
+    const dbRendition = await DiscordServer.findByPk(server?.id ?? id)
 
     if (!dbRendition) {
         throw new Error('Tried to request server that doesnt exist')
