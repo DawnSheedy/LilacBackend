@@ -1,6 +1,8 @@
 import {
   BelongsToManyAddAssociationMixin,
   BelongsToManyAddAssociationMixinOptions,
+  BelongsToManyGetAssociationsMixin,
+  BelongsToManyGetAssociationsMixinOptions,
   BelongsToManyHasAssociationMixin,
   BelongsToManyHasAssociationMixinOptions,
   BelongsToManyRemoveAssociationMixin,
@@ -10,6 +12,7 @@ import {
 } from "sequelize";
 import { db } from "../services/db";
 import { DiscordServer } from "./DiscordServer";
+import { UserServer } from "./UserServer";
 
 class DiscordUser extends Model {
   declare id: string;
@@ -21,7 +24,8 @@ class DiscordUser extends Model {
   declare bannerUrl: string | null;
   declare color: number | null;
   declare lastAppearanceRefresh: Date;
-
+  
+  declare getDiscordServers: BelongsToManyGetAssociationsMixin<DiscordServer>
   declare hasDiscordServer: BelongsToManyHasAssociationMixin<
     DiscordServer,
     BelongsToManyHasAssociationMixinOptions
@@ -76,7 +80,7 @@ DiscordUser.init(
   { sequelize: db }
 );
 
-DiscordServer.belongsToMany(DiscordUser, { through: "UserServers" });
-DiscordUser.belongsToMany(DiscordServer, { through: "UserServers" });
+DiscordServer.belongsToMany(DiscordUser, { through: UserServer });
+DiscordUser.belongsToMany(DiscordServer, { through: UserServer });
 
 export { DiscordUser };

@@ -1,5 +1,5 @@
 import { Request } from "express"
-import { decode, verify } from "jsonwebtoken"
+import { verify } from "jsonwebtoken"
 import { JWTPayload } from "../interfaces/JWTPayload"
 
 interface SuccessfulRequestVerification {

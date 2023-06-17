@@ -4,6 +4,7 @@ import { REST } from "@discordjs/rest";
 console.log("🛠️ Setting up discord API...");
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);
 const discordOauthApi = new OAuth2API(rest);
+const discordBotApi = new API(rest)
 
 /**
  * Method to get access to a users API
@@ -17,4 +18,4 @@ const getDiscordAPIWithToken = (token: string) => {
   return new API(rest);
 };
 
-export { discordOauthApi, getDiscordAPIWithToken };
+export { discordOauthApi, discordBotApi, getDiscordAPIWithToken };
