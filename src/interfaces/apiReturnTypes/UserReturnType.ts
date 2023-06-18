@@ -3,4 +3,5 @@ export interface UserReturnType {
     bannerUrl: string | null;
     color: number | null;
     userName: string;
+    displayName: string | null;
 }

@@ -11,7 +11,7 @@ class MinecraftRoleConfig extends Model {
 MinecraftRoleConfig.init(
   {
     id: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
@@ -25,6 +25,7 @@ MinecraftRoleConfig.init(
 
 DiscordServer.hasMany(MinecraftRoleConfig);
 MinecraftRoleConfig.belongsTo(DiscordServer);
-DiscordRole.hasOne(MinecraftRoleConfig, { onDelete: "SET_NULL" });
+DiscordRole.hasOne(MinecraftRoleConfig);
+MinecraftRoleConfig.belongsTo(DiscordRole);
 
 export { MinecraftRoleConfig };

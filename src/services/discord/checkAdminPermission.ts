@@ -1,6 +1,4 @@
-import { APIRole } from "@discordjs/core";
 import { discordBotApi } from ".";
-import { updateServerRendition } from "./updateServerRendition";
 import { updateServer } from "./updateServer";
 import { generateRoleMap } from "../../util/generateRoleMap";
 

@@ -20,12 +20,13 @@ class DiscordUser extends Model {
   declare refreshToken: string;
   declare tokenExpiration: Date;
   declare userName: string;
+  declare displayName: string | null;
   declare avatarUrl: string | null;
   declare bannerUrl: string | null;
   declare color: number | null;
   declare lastAppearanceRefresh: Date;
-  
-  declare getDiscordServers: BelongsToManyGetAssociationsMixin<DiscordServer>
+
+  declare getDiscordServers: BelongsToManyGetAssociationsMixin<DiscordServer>;
   declare hasDiscordServer: BelongsToManyHasAssociationMixin<
     DiscordServer,
     BelongsToManyHasAssociationMixinOptions
@@ -62,6 +63,9 @@ DiscordUser.init(
     userName: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    displayName: {
+      type: DataTypes.STRING,
     },
     avatarUrl: {
       type: DataTypes.STRING,
