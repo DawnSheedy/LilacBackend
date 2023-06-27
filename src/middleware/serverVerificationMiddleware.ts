@@ -3,6 +3,7 @@ import { generateHelpfulErrorJson } from "../util/generateHelpfulErrorJson";
 import { DiscordServer } from "../models/DiscordServer";
 import { checkAndUpdateServerRelations } from "../auth/checkAndUpdateServerRelations";
 import { updateServer } from "../services/discord/updateServer";
+import { updateServerIfNeeded } from "../services/discord/updateServerIfNeeded";
 
 /**
  * Middleware to verify a user is authenticated with discord.
@@ -23,12 +24,7 @@ export const serverVerificationMiddleware = async (
   if (!id) {
     return res
       .status(400)
-      .json(
-        generateHelpfulErrorJson(
-          "missing_id",
-          "No id was provided."
-        )
-      );
+      .json(generateHelpfulErrorJson("missing_id", "No id was provided."));
   }
 
   let server = await DiscordServer.findByPk(id);
@@ -60,11 +56,7 @@ export const serverVerificationMiddleware = async (
       );
   }
 
-  if (
-    new Date().getTime() - server.lastRefresh?.getTime() ?? 0 > 60 * 60 * 1000
-  ) {
-    server = await updateServer({ id: server.id });
-  }
+  server = await updateServerIfNeeded(server);
 
   req.server = server;
 
