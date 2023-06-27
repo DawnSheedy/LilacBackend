@@ -14,6 +14,7 @@ import { db } from "../services/db";
 import { DiscordRole } from "./DiscordRole";
 import { MinecraftRoleConfig } from "./MinecraftRoleConfig";
 import { MinecraftClient } from "./MinecraftClient";
+import { MinecraftSession } from "./MinecraftSession";
 
 class DiscordServer extends Model {
   declare id: string;
@@ -39,6 +40,8 @@ class DiscordServer extends Model {
   >;
 
   getMinecraftClient: HasOneGetAssociationMixin<MinecraftClient>;
+
+  getMinecraftSessions: HasManyGetAssociationsMixin<MinecraftSession>;
 }
 
 DiscordServer.init(
