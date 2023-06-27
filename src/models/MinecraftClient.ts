@@ -11,7 +11,8 @@ import { DiscordServer } from "./DiscordServer";
 class MinecraftClient extends Model {
   declare id: number;
   declare name: string;
-  declare token: string;
+  declare token: string | null;
+  declare lastPing: Date;
 
   getDiscordServer: BelongsToGetAssociationMixin<DiscordServer>;
 
@@ -31,10 +32,15 @@ MinecraftClient.init(
     },
     name: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     token: {
       type: DataTypes.STRING,
       unique: true,
+    },
+    lastPing: {
+      type: DataTypes.DATE,
+      allowNull: false,
     },
   },
   { sequelize: db }

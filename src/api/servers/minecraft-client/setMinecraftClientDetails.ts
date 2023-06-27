@@ -24,7 +24,9 @@ export const setMinecraftClientDetails = async (
     client = await MinecraftClient.create({ name: req.body.name });
     await client.setDiscordServer(req.server);
   } else {
-    client.setAttributes({ name: req.body.name });
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
+    client.setAttributes({ name: req.body.name, lastPing: date });
     client = await client.save();
   }
 
