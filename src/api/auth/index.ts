@@ -1,12 +1,10 @@
-import { Router, json } from "express";
+import { Router } from "express";
 import { getUser } from "./getUser";
 import { discordVerificationMiddleware } from "../../middleware/discordVerificationMiddleware";
 import { getDiscordUrl } from "./getDiscordUrl";
 import { postDiscordCode } from "./postDiscordCode";
 
 const authApi = Router();
-
-authApi.use(json());
 
 authApi.get("/user", discordVerificationMiddleware, getUser);
 

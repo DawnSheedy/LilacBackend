@@ -1,41 +1,70 @@
-import { DataTypes, HasManyAddAssociationMixin, HasManyAddAssociationMixinOptions, HasManyAddAssociationsMixin, HasManyAddAssociationsMixinOptions, HasManyGetAssociationsMixin, HasManyRemoveAssociationsMixin, HasManyRemoveAssociationsMixinOptions, Model } from "sequelize";
+import {
+  DataTypes,
+  HasManyAddAssociationMixin,
+  HasManyAddAssociationMixinOptions,
+  HasManyAddAssociationsMixin,
+  HasManyAddAssociationsMixinOptions,
+  HasManyGetAssociationsMixin,
+  HasManyRemoveAssociationsMixin,
+  HasManyRemoveAssociationsMixinOptions,
+  HasOneGetAssociationMixin,
+  Model,
+} from "sequelize";
 import { db } from "../services/db";
 import { DiscordRole } from "./DiscordRole";
+import { MinecraftRoleConfig } from "./MinecraftRoleConfig";
+import { MinecraftClient } from "./MinecraftClient";
 
 class DiscordServer extends Model {
-    declare id: string
-    declare lastRefresh: Date | null
-    declare serverName: string | null
-    declare serverIcon: string | null
-    declare lastUpdateFailed: boolean
+  declare id: string;
+  declare lastRefresh: Date | null;
+  declare serverName: string | null;
+  declare serverIcon: string | null;
+  declare lastUpdateFailed: boolean;
 
-    getDiscordRoles: HasManyGetAssociationsMixin<DiscordRole>
-    addDiscordRole: HasManyAddAssociationMixin<DiscordRole, HasManyAddAssociationMixinOptions>
-    addDiscordRoles: HasManyAddAssociationsMixin<DiscordRole, HasManyAddAssociationsMixinOptions>
-    removeDiscordRoles: HasManyRemoveAssociationsMixin<DiscordRole, HasManyRemoveAssociationsMixinOptions>
+  getMinecraftRoleConfigs: HasManyGetAssociationsMixin<MinecraftRoleConfig>;
+
+  getDiscordRoles: HasManyGetAssociationsMixin<DiscordRole>;
+  addDiscordRole: HasManyAddAssociationMixin<
+    DiscordRole,
+    HasManyAddAssociationMixinOptions
+  >;
+  addDiscordRoles: HasManyAddAssociationsMixin<
+    DiscordRole,
+    HasManyAddAssociationsMixinOptions
+  >;
+  removeDiscordRoles: HasManyRemoveAssociationsMixin<
+    DiscordRole,
+    HasManyRemoveAssociationsMixinOptions
+  >;
+
+  getMinecraftClient: HasOneGetAssociationMixin<MinecraftClient>;
 }
 
-DiscordServer.init({
+DiscordServer.init(
+  {
     id: {
-        type: DataTypes.STRING,
-        unique: true,
-        primaryKey: true
+      type: DataTypes.STRING,
+      unique: true,
+      primaryKey: true,
     },
     lastRefresh: {
-        type: DataTypes.DATE,
+      type: DataTypes.DATE,
     },
     serverName: {
-        type: DataTypes.STRING,
+      type: DataTypes.STRING,
     },
     serverIcon: {
-        type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     lastUpdateFailed: {
-        type: DataTypes.BOOLEAN
-    }
-}, { sequelize: db })
+      type: DataTypes.BOOLEAN,
+    },
+  },
+  { sequelize: db }
+);
 
-DiscordServer.hasMany(DiscordRole)
-DiscordRole.belongsTo(DiscordServer)
+DiscordServer.hasMany(DiscordRole);
+DiscordRole.belongsTo(DiscordServer);
 
-export { DiscordServer }
+export { DiscordServer };

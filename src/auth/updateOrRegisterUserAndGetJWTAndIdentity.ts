@@ -5,6 +5,7 @@ import { updateAuthTokens } from "./updateAuthTokens";
 import { sign } from "jsonwebtoken";
 import { getAppearanceFromIdentity } from "../util/getAppearanceFromIdentity";
 import { DiscordServer } from "../models/DiscordServer";
+import { updateServer } from "../services/discord/updateServer";
 
 /**
  * Given oauth token response, create or update the user, and add their server.
@@ -51,6 +52,11 @@ export const updateOrRegisterUserAndGetJWTAndIdentity = async (
       through: { lastPermissionCheck: new Date(), userHasPermission: true },
     });
   }
+
+  /**
+   * Perform initial server update
+   */
+  await updateServer({ id: server.id });
 
   return {
     user,

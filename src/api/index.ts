@@ -1,13 +1,30 @@
-import { Router } from "express";
+import { Router, json } from "express";
 import { authApi } from "./auth";
 import { serverApi } from "./servers";
+import { roleConfigApi } from "./servers/role-configs";
+import { API } from "@discordjs/core";
+import {
+  ApiNamespaceConfig,
+  loadApiNamespaces,
+} from "../util/loadApiNamespaces";
 
-const apiRouter = Router()
+const API_NAMESPACES: ApiNamespaceConfig[] = [
+  {
+    name: "🔐 Authentication",
+    path: "/auth",
+    router: authApi,
+  },
+  {
+    name: "🎙️ Discord Servers",
+    path: "/servers",
+    router: serverApi,
+  },
+];
 
-console.log('📝 Registering /auth Endpoints')
-apiRouter.use('/auth', authApi)
+const apiRouter = Router();
 
-console.log('📝 Registering /servers Endpoints')
-apiRouter.use('/servers', serverApi)
+apiRouter.use(json());
 
-export { apiRouter as api }
+loadApiNamespaces(apiRouter, API_NAMESPACES);
+
+export { apiRouter as api };

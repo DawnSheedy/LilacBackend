@@ -1,4 +1,4 @@
-import { DataTypes, Model } from "sequelize";
+import { BelongsToGetAssociationMixin, DataTypes, Model } from "sequelize";
 import { db } from "../services/db";
 import { DiscordServer } from "./DiscordServer";
 import { DiscordRole } from "./DiscordRole";
@@ -6,6 +6,8 @@ import { DiscordRole } from "./DiscordRole";
 class MinecraftRoleConfig extends Model {
   declare id: number;
   declare name: string;
+
+  getDiscordServer: BelongsToGetAssociationMixin<DiscordServer>
 }
 
 MinecraftRoleConfig.init(
