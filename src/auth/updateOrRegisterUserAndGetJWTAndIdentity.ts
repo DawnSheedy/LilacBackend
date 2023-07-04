@@ -15,7 +15,6 @@ import { updateServer } from "../services/discord/updateServer";
 export const updateOrRegisterUserAndGetJWTAndIdentity = async (
   discordResponse: RESTPostOAuth2AccessTokenWithBotAndGuildsScopeResult
 ) => {
-  console.log(discordResponse);
   const expirationDate = new Date();
   expirationDate.setSeconds(
     expirationDate.getSeconds() + discordResponse.expires_in
